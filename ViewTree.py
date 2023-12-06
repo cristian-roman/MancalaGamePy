@@ -2,15 +2,20 @@ from models.ViewModel import ViewModel
 
 
 class ViewTree:
+    views = []
 
-    def __init__(self, ui_view: ViewModel):
-        self.views = [ui_view]
+    @staticmethod
+    def init(ui_view: ViewModel):
+        ViewTree.views = [ui_view]
 
-    def push_view(self, view):
-        self.views.append(view)
+    @staticmethod
+    def push_view(view: ViewModel):
+        ViewTree.views.append(view)
 
-    def pop_view(self):
-        self.views.pop()
+    @staticmethod
+    def pop_view():
+        ViewTree.views.pop()
 
-    def get_current_view(self):
-        return self.views[-1]
+    @staticmethod
+    def get_current_view():
+        return ViewTree.views[-1]

@@ -5,6 +5,8 @@ import pygame
 
 from models.ViewModel import ViewModel
 from AppSettings import AppSettings
+from models.Game import Game
+from ViewTree import ViewTree
 
 
 class UI(ViewModel):
@@ -15,13 +17,13 @@ class UI(ViewModel):
     def __init__(self, window: pygame.Surface):
         self.window = window
 
-        self.background_image_path = os.path.join(self.ui_images_path, 'background.jpeg')
-        self.button_image_path = os.path.join(self.ui_images_path, 'button-bg.jpeg')
+        self.bg_image_path = os.path.join(self.ui_images_path, 'background.jpeg')
+        self.button_bg_image_path = os.path.join(self.ui_images_path, 'button-bg.jpeg')
 
-        self.ui_bg_image = pygame.image.load(self.background_image_path)
+        self.ui_bg_image = pygame.image.load(self.bg_image_path)
         self.ui_bg_image = pygame.transform.scale(self.ui_bg_image, (self.window.get_width(), self.window.get_height()))
 
-        self.button_bg_image = pygame.image.load(self.button_image_path)
+        self.button_bg_image = pygame.image.load(self.button_bg_image_path)
         self.button_bg_image = pygame.transform.scale(self.button_bg_image, (self.button_width, self.button_height))
 
         self.play_button_rect = pygame.Rect(self.window.get_width() // 2 - self.button_width,
@@ -39,7 +41,7 @@ class UI(ViewModel):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if self.play_button_rect.collidepoint(event.pos):
-                    print("Play button clicked")
+                    ViewTree.push_view(Game(self.window))
                 elif self.quit_button_rect.collidepoint(event.pos):
                     pygame.quit()
                     sys.exit()
