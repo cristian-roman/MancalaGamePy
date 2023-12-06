@@ -1,5 +1,6 @@
 import os.path
 import sys
+import time
 
 import pygame
 
@@ -32,6 +33,65 @@ class Game(ViewModel):
         self.player_pot = pygame.image.load(self.player_pot)
         self.player_pot = pygame.transform.scale(self.player_pot, (self.pit_width, self.pit_height))
 
+    def _animate_scaling(self, text, text_rect):
+        clock = pygame.time.Clock()
+        frame_rate = 15  # Adjust the frame rate as needed
+        delta_time = 1.0 / frame_rate
+
+        for i in range(10):
+            scale_factor = 1.0 + i * 0.01
+            scaled_text = pygame.transform.scale(text,
+                                                 (int(text_rect.width * scale_factor),
+                                                  int(text_rect.height * scale_factor)))
+            scaled_rect = scaled_text.get_rect(center=text_rect.center)
+
+            background_rect = pygame.Rect(scaled_rect.x - 10, scaled_rect.y - 5,
+                                          scaled_rect.width + 20, scaled_rect.height + 10)
+
+            pygame.draw.rect(self.window, AppSettings.colors['orange_h2'], background_rect)
+            self.window.blit(scaled_text, scaled_rect)
+            pygame.display.update()
+
+            clock.tick(frame_rate)
+            time.sleep(delta_time)
+
+        for i in range(10):
+            scale_factor = 1.1 - i * 0.01
+            scaled_text = pygame.transform.scale(text,
+                                                 (int(text_rect.width * scale_factor),
+                                                  int(text_rect.height * scale_factor)))
+            scaled_rect = scaled_text.get_rect(center=text_rect.center)
+
+            background_rect = pygame.Rect(scaled_rect.x - 10, scaled_rect.y - 5,
+                                          scaled_rect.width + 20, scaled_rect.height + 10)
+
+            pygame.draw.rect(self.window, AppSettings.colors['orange_h2'], background_rect)
+            self.window.blit(scaled_text, scaled_rect)
+            pygame.display.update()
+
+            clock.tick(frame_rate)
+            time.sleep(delta_time)
+
+    def _draw_player_turn_label(self, player_turn):
+        text = AppSettings.font.render(f"Player {player_turn} turn", True, AppSettings.colors['white'])
+        text_rect = text.get_rect(
+            center=(self.window.get_width() // 2, (self.window.get_height() // 2 - self.table_height // 2) // 2))
+
+        rect_width = text_rect.width + 20
+        rect_height = text_rect.height + 10
+        rect_x = text_rect.centerx - rect_width // 2
+        rect_y = text_rect.centery - rect_height // 2
+        background_rect = pygame.Rect(rect_x, rect_y, rect_width, rect_height)
+        pygame.draw.rect(self.window, AppSettings.colors['orange_h2'], background_rect)
+
+        # Call the animation function
+        self._animate_scaling(text, text_rect)
+
+        # Display the original text
+        pygame.draw.rect(self.window, AppSettings.colors['orange_h2'], background_rect)
+        self.window.blit(text, text_rect)
+        pygame.display.update()
+
     def _load_view(self):
         self.window.blit(self.bg_image, (0, 0))
 
@@ -46,6 +106,11 @@ class Game(ViewModel):
         right_pot_x = self.window.get_width() // 2 + self.table_width // 2 - 75
         right_pot_y = self.window.get_height() // 2 - self.table_height // 2 + 40
         self.window.blit(self.player_pot, (right_pot_x, right_pot_y))
+
+        oval_rect = pygame.Rect(board_x + 57, board_y + 47, 102, 155)
+        pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], oval_rect, 4)
+
+        self._draw_player_turn_label(1)
 
         pygame.display.update()
 

@@ -6,10 +6,10 @@ import pygame
 class ViewModel:
 
     def loop(self):
-        pass
+        raise NotImplementedError
 
     def _load_view(self):
-        pass
+        raise NotImplementedError
 
     def _listen_for_events(self):
         for event in pygame.event.get():

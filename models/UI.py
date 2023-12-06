@@ -46,7 +46,7 @@ class UI(ViewModel):
                     pygame.quit()
                     sys.exit()
 
-    def display_text_centered(self, text, color, rect):
+    def __display_text_centered(self, text, color, rect):
         text_surface = AppSettings.font.render(text, True, color)
         text_rect = text_surface.get_rect(center=rect.center)
         self.window.blit(text_surface, text_rect)
@@ -56,17 +56,17 @@ class UI(ViewModel):
 
         if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
             self.window.blit(self.button_bg_image, (self.play_button_rect.x, self.play_button_rect.y - 5))
-            self.display_text_centered("Play", AppSettings.colors['black'], self.play_button_rect)
+            self.__display_text_centered("Play", AppSettings.colors['black'], self.play_button_rect)
         else:
             self.window.blit(self.button_bg_image, (self.play_button_rect.x, self.play_button_rect.y))
-            self.display_text_centered("Play", AppSettings.colors['light_gray'], self.play_button_rect)
+            self.__display_text_centered("Play", AppSettings.colors['light_gray'], self.play_button_rect)
 
         if self.quit_button_rect.collidepoint(pygame.mouse.get_pos()):
             self.window.blit(self.button_bg_image, (self.quit_button_rect.x, self.quit_button_rect.y - 5))
-            self.display_text_centered("Quit", AppSettings.colors['black'], self.quit_button_rect)
+            self.__display_text_centered("Quit", AppSettings.colors['black'], self.quit_button_rect)
         else:
             self.window.blit(self.button_bg_image, (self.quit_button_rect.x, self.quit_button_rect.y))
-            self.display_text_centered("Quit", AppSettings.colors['light_gray'], self.quit_button_rect)
+            self.__display_text_centered("Quit", AppSettings.colors['light_gray'], self.quit_button_rect)
 
     def loop(self):
         self._listen_for_events()
