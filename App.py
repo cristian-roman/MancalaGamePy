@@ -1,33 +1,29 @@
 import pygame
-import sys
-from UI import UI
+
+from models.UI import UI
+from ViewTree import ViewTree
+from AppSettings import AppSettings
 
 
 class App:
-    name = "Mancala Game"
-    width = 800
-    height = 600
+
     window = None
+    view_tree = None
 
     @staticmethod
     def init():
         pygame.init()
-        App.window = pygame.display.set_mode((App.width, App.height))
-        pygame.display.set_caption(App.name)
+        font = pygame.font.Font(None, 30)
+        AppSettings.init(font)
+
+        App.window = pygame.display.set_mode((AppSettings.width, AppSettings.height))
+        pygame.display.set_caption(AppSettings.name)
+        App.view_tree = ViewTree(UI(App.window))
 
         App.__main_loop()
 
     @staticmethod
     def __main_loop():
         while True:
-            App.__listen_for_events()
-            bg_image = pygame.transform.scale(UI.get_background_image(), (App.width, App.height))
-            App.window.blit(bg_image, (0, 0))
-            pygame.display.flip()
+            App.view_tree.get_current_view().loop()
 
-    @staticmethod
-    def __listen_for_events():
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
