@@ -7,6 +7,7 @@ from AppSettings import AppSettings
 from pages.Game.Components import BackgroundComponent as Bg
 from pages.Game.Components import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
+from pages.Game.Components import HighlightingSystem as Highlighting
 from pages.ViewModel import ViewModel
 
 
@@ -19,6 +20,10 @@ class Game(ViewModel):
 
         self.bg = Bg.BackgroundComponent(self.window, self.game_images_path)
         self.board = Board.BoardComponent(self.window, self.game_images_path)
+
+        pit_1_coordinates = (self.board.board_coordinates[0] + 57, self.board.board_coordinates[1] + 47)
+
+        self.highlighting = Highlighting.HighlightingSystem(self.window, pit_1_coordinates)
 
     def __draw_player_turn_label(self, player_turn):
 
@@ -64,8 +69,9 @@ class Game(ViewModel):
         self.__draw_player_score_label(1, 0)
         self.__draw_player_score_label(2, 0)
 
-        oval_rect = pygame.Rect(self.board.board_coordinates[0] + 57, self.board.board_coordinates[1] + 47, 102, 155)
-        pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], oval_rect, 4)
+        self.highlighting.set_highlighted_pits([0, 1, 2, 3, 4, 5,
+                                                6, 7, 8, 9, 10, 11])
+        self.highlighting._draw()
 
         self.__draw_player_turn_label(1)
 
