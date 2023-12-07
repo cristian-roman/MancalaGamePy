@@ -92,6 +92,13 @@ class Game(ViewModel):
         self.window.blit(text, text_rect)
         pygame.display.update()
 
+    def __draw_player_labels(self, player1_score, player2_score, left_pot_x, left_pot_y, right_pot_x, right_pot_y):
+        player1_label = AppSettings.font.render(f"Player 1 Score: {player1_score}", True, AppSettings.colors['white'])
+        player2_label = AppSettings.font.render(f"Player 2 Score: {player2_score}", True, AppSettings.colors['white'])
+
+        self.window.blit(player1_label, (left_pot_x + 110, left_pot_y - 30))
+        self.window.blit(player2_label, (right_pot_x + 120, right_pot_y - 30))
+
     def _load_view(self):
         self.window.blit(self.bg_image, (0, 0))
 
@@ -106,6 +113,12 @@ class Game(ViewModel):
         right_pot_x = self.window.get_width() // 2 + self.table_width // 2 - 75
         right_pot_y = self.window.get_height() // 2 - self.table_height // 2 + 40
         self.window.blit(self.player_pot, (right_pot_x, right_pot_y))
+
+        # Call the function to draw player labels
+        self.__draw_player_labels(0,
+                                  0,
+                                  left_pot_x, left_pot_y,
+                                  right_pot_x, right_pot_y)
 
         oval_rect = pygame.Rect(board_x + 57, board_y + 47, 102, 155)
         pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], oval_rect, 4)
