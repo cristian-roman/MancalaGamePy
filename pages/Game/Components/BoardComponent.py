@@ -27,7 +27,7 @@ class BoardComponent(GameComponent):
 
     def _draw(self):
         board_x = self.window.get_width() // 2 - self.board_width // 2
-        board_y = self.window.get_height() // 2 - self.board_height // 2
+        board_y = self.window.get_height() // 2 - self.board_height // 2 + 50
         self.board_coordinates = (board_x, board_y)
         self.window.blit(self.board, (board_x, board_y))
 

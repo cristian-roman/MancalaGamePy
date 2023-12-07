@@ -7,7 +7,7 @@ from pages.Game.Components.GameComponent import GameComponent
 
 class BackgroundComponent(GameComponent):
 
-    background_file_name = 'background.png'
+    background_file_name = 'background.jpeg'
 
     def __init__(self, window: pygame.Surface, images_path):
         super().__init__()
