@@ -9,6 +9,7 @@ from pages.Game.Components import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
 from pages.Game.Components import HighlightingSystem as Highlighting
 from pages.ViewModel import ViewModel
+from pages.Game.Components import StoneSystem as Stone
 
 
 class Game(ViewModel):
@@ -22,8 +23,9 @@ class Game(ViewModel):
         self.board = Board.BoardComponent(self.window, self.game_images_path)
 
         pit_1_coordinates = (self.board.board_coordinates[0] + 57, self.board.board_coordinates[1] + 47)
-
         self.highlighting = Highlighting.HighlightingSystem(self.window, pit_1_coordinates)
+
+        self.stones = Stone.StoneSystem(self.window, self.highlighting.pits_coordinates)
 
     def __draw_player_turn_label(self, player_turn):
 
@@ -69,8 +71,9 @@ class Game(ViewModel):
         self.__draw_player_score_label(1, 0)
         self.__draw_player_score_label(2, 0)
 
-        self.highlighting.set_highlighted_pits([0, 1, 2, 3, 4, 5,
-                                                6, 7, 8, 9, 10, 11])
+        self.stones._draw()
+
+        self.highlighting.set_highlighted_pits([0, 1, 2, 3, 4, 5])
         self.highlighting._draw()
 
         self.__draw_player_turn_label(1)
