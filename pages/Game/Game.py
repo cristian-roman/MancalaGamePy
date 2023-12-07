@@ -1,15 +1,13 @@
 import os.path
 import sys
-import time
 
 import pygame
 
 from AppSettings import AppSettings
-from pages.ViewModel import ViewModel
-from pages.Game.Components import BoardComponent as Board
 from pages.Game.Components import BackgroundComponent as Bg
+from pages.Game.Components import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
-from ViewTree import ViewTree
+from pages.ViewModel import ViewModel
 
 
 class Game(ViewModel):
@@ -54,7 +52,6 @@ class Game(ViewModel):
         self.bg._draw()
         self.board._draw()
 
-        # Call the function to draw player labels
         self.__draw_player_label(1, 0)
         self.__draw_player_label(2, 0)
 
