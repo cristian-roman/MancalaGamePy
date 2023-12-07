@@ -1,4 +1,4 @@
-from models.ViewModel import ViewModel
+from pages.ViewModel import ViewModel
 
 
 class ViewTree:

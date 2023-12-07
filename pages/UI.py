@@ -3,9 +3,9 @@ import sys
 
 import pygame
 
-from models.ViewModel import ViewModel
+from pages.ViewModel import ViewModel
 from AppSettings import AppSettings
-from models.Game import Game
+from pages.Game.Game import Game
 from ViewTree import ViewTree
 
 
@@ -15,6 +15,7 @@ class UI(ViewModel):
     ui_images_path = os.path.join('images', 'UI')
 
     def __init__(self, window: pygame.Surface):
+        super().__init__()
         self.window = window
 
         self.bg_image_path = os.path.join(self.ui_images_path, 'background.jpeg')
