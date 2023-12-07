@@ -56,7 +56,7 @@ class Game(ViewModel):
             player1_label._draw()
         else:
             x = self.board.right_pot_coordinates[0] + self.board.pot_width // 2
-            y = self.board.right_pot_coordinates[1] + self.board.pot_height - 65
+            y = self.board.right_pot_coordinates[1] + 45
             player2_label = Label.LabelComponent(self.window, (x, y), f"Player 2 Score: {score}", 36,
                                                  AppSettings.colors['white'], True,
                                                  AppSettings.colors['orange_h2'])
