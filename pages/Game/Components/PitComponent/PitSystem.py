@@ -1,0 +1,38 @@
+from pages.Game.Components.GameComponent import GameComponent
+from pages.Game.Components.PitComponent.PitComponent import PitComponent
+
+
+class PitSystem(GameComponent):
+    space_between_pits = 116.5
+    height_between_rows = 261
+
+    def __init__(self, window, first_pit_coordinates):
+        self.highlighted_pits = None
+
+        self.window = window
+        first_pit_coordinates = first_pit_coordinates
+
+        self.pits = list()
+        self.__generate_pits(first_pit_coordinates)
+
+    def __generate_pits(self, first_pit_coordinates):
+
+        self.pits.append(PitComponent(self.window, first_pit_coordinates))
+        for i in range(1, 6):
+            next_pit_coordinates = (first_pit_coordinates[0] + self.space_between_pits * i,
+                                    first_pit_coordinates[1])
+            self.pits.append(PitComponent(self.window, next_pit_coordinates))
+        for i in range(6):
+            next_pit_coordinates = (first_pit_coordinates[0] + self.space_between_pits * i,
+                                    first_pit_coordinates[1] + self.height_between_rows)
+            self.pits.append(PitComponent(self.window, next_pit_coordinates))
+
+    def set_highlighted_pits(self, highlighted_pits: list):
+        self.highlighted_pits = highlighted_pits
+
+    def _draw(self):
+        if self.highlighted_pits is not None:
+            for pit_index in self.highlighted_pits:
+                self.pits[pit_index].highlight()
+        for pit in self.pits:
+            pit._draw()
