@@ -84,6 +84,9 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
+        for pit in self.pits_system.pits:
+            pit.listen_for_hovering(pygame.mouse.get_pos())
+
     def loop(self):
         self._listen_for_events()
         self._load_view()

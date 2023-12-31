@@ -13,6 +13,8 @@ class PitComponent(GameComponent):
     pit_height = 155
 
     def __init__(self, window, pit_coordinates):
+        self.is_highlighted = False
+        self.highlight_width = 4
         self.window = window
         self.pit_coordinates = pit_coordinates
 
@@ -38,9 +40,26 @@ class PitComponent(GameComponent):
     def highlight(self):
         zone = pygame.Rect(self.pit_coordinates[0], self.pit_coordinates[1],
                            self.pit_width, self.pit_height)
-        pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], zone, 4)
+        pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], zone, self.highlight_width)
+        self.is_highlighted = True
+
+    def delete_highlight(self):
+        ellipse_surface = pygame.Surface((self.pit_width, self.pit_height), pygame.SRCALPHA)
+        pygame.draw.ellipse(ellipse_surface, AppSettings.colors['no_color'], (0, 0, self.pit_width, self.pit_height))
+
+        self.is_highlighted = False
 
     def _draw(self):
+        self.label._draw()
         for stone in self.stones:
             stone._draw()
-        self.label._draw()
+
+    def listen_for_hovering(self, mouse_position):
+        if not self.is_highlighted:
+            return
+        zone = pygame.Rect(self.pit_coordinates[0], self.pit_coordinates[1],
+                           self.pit_width, self.pit_height)
+        if zone.collidepoint(mouse_position):
+            self.highlight_width = 10
+        else:
+            self.highlight_width = 4

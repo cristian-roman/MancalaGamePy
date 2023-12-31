@@ -8,6 +8,7 @@ class PitSystem(GameComponent):
 
     def __init__(self, window, first_pit_coordinates):
         self.highlighted_pits = None
+        self.no_highlighted_pits = None
 
         self.window = window
         first_pit_coordinates = first_pit_coordinates
@@ -29,16 +30,30 @@ class PitSystem(GameComponent):
 
     def set_highlighted_pits(self, player_turn):
         self.highlighted_pits = list()
+        self.no_highlighted_pits = list()
         if player_turn == 1:
             for i in range(6):
-                self.highlighted_pits.append(i)
+                if len(self.pits[i].stones) != 0:
+                    self.highlighted_pits.append(i)
+                else:
+                    self.no_highlighted_pits.append(i)
+            for i in range(6, 12):
+                self.no_highlighted_pits.append(i)
         else:
             for i in range(6, 12):
-                self.highlighted_pits.append(i)
+                if len(self.pits[i].stones) != 0:
+                    self.highlighted_pits.append(i)
+                else:
+                    self.no_highlighted_pits.append(i)
+            for i in range(6):
+                self.no_highlighted_pits.append(i)
 
     def _draw(self):
         if self.highlighted_pits is not None:
             for pit_index in self.highlighted_pits:
                 self.pits[pit_index].highlight()
-        for pit in self.pits:
-            pit._draw()
+                self.pits[pit_index]._draw()
+        if self.no_highlighted_pits is not None:
+            for pit_index in self.no_highlighted_pits:
+                self.pits[pit_index].delete_highlight()
+                self.pits[pit_index]._draw()
