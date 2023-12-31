@@ -1,5 +1,7 @@
 from pages.Game.Components.GameComponent import GameComponent
 from pages.Game.Components.PitComponent.PitComponent import PitComponent
+from multiprocessing import Pool
+
 
 
 class PitSystem(GameComponent):
@@ -51,9 +53,10 @@ class PitSystem(GameComponent):
     def _draw(self):
         if self.highlighted_pits is not None:
             for pit_index in self.highlighted_pits:
-                self.pits[pit_index].highlight()
                 self.pits[pit_index]._draw()
+                self.pits[pit_index].highlight()
         if self.no_highlighted_pits is not None:
             for pit_index in self.no_highlighted_pits:
-                self.pits[pit_index].delete_highlight()
                 self.pits[pit_index]._draw()
+                self.pits[pit_index].delete_highlight()
+

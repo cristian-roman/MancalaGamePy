@@ -84,8 +84,12 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
-        for pit in self.pits_system.pits:
-            pit.listen_for_hovering(pygame.mouse.get_pos())
+        if self.player_turn == 1:
+            for i in range(6):
+                self.pits_system.pits[i].listen_for_hovering(pygame.mouse.get_pos())
+        else:
+            for i in range(6, 12):
+                self.pits_system.pits[i].listen_for_hovering(pygame.mouse.get_pos())
 
     def loop(self):
         self._listen_for_events()
