@@ -1,4 +1,5 @@
 import os.path
+import random
 import sys
 
 import pygame
@@ -23,6 +24,8 @@ class Game(ViewModel):
 
         pit_1_coordinates = (self.board.board_coordinates[0] + 57, self.board.board_coordinates[1] + 47)
         self.pits_system = PitSystem(self.window, pit_1_coordinates)
+
+        self.player_turn = random.randint(1, 2)
 
     def __draw_player_turn_label(self, player_turn):
 
@@ -68,10 +71,10 @@ class Game(ViewModel):
         self.__draw_player_score_label(1, 0)
         self.__draw_player_score_label(2, 0)
 
-        self.pits_system.set_highlighted_pits([0, 1, 2, 3, 4, 5])
+        self.pits_system.set_highlighted_pits(self.player_turn)
         self.pits_system._draw()
 
-        self.__draw_player_turn_label(1)
+        self.__draw_player_turn_label(self.player_turn)
 
         pygame.display.update()
 

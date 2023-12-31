@@ -27,8 +27,14 @@ class PitSystem(GameComponent):
                                     first_pit_coordinates[1] + self.height_between_rows)
             self.pits.append(PitComponent(self.window, next_pit_coordinates))
 
-    def set_highlighted_pits(self, highlighted_pits: list):
-        self.highlighted_pits = highlighted_pits
+    def set_highlighted_pits(self, player_turn):
+        self.highlighted_pits = list()
+        if player_turn == 1:
+            for i in range(6):
+                self.highlighted_pits.append(i)
+        else:
+            for i in range(6, 12):
+                self.highlighted_pits.append(i)
 
     def _draw(self):
         if self.highlighted_pits is not None:
