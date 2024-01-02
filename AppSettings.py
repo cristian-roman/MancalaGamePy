@@ -1,6 +1,3 @@
-import pygame
-
-
 class AppSettings:
     name = "Mancala Game"
     width = 1280

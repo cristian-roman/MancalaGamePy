@@ -3,7 +3,6 @@ import time
 import pygame
 
 from pages.Game.Components.GameComponent import GameComponent
-from AppSettings import AppSettings
 
 
 class LabelComponent(GameComponent):
