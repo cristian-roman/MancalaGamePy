@@ -35,6 +35,8 @@ class PotComponent(GameComponent):
         self.pot = pygame.image.load(os.path.join(images_path, self.pot_file_name))
         self.pot = pygame.transform.scale(self.pot, (self.pot_width, self.pot_height))
 
+        self.stones_coordinates = (self.pot_coordinates[0] + 150, self.pot_coordinates[1] + 150)
+
     def _draw(self):
         self.window.blit(self.pot, self.pot_coordinates)
         for stone in self.stones:

@@ -6,10 +6,10 @@ import pygame
 
 from AppSettings import AppSettings
 from pages.Game.Components import BackgroundComponent as Bg
-from pages.Game.Components import BoardComponent as Board
+from pages.Game.Components.BoardComponents import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
 from pages.ViewModel import ViewModel
-from pages.Game.Components.PitComponent.PitSystem import PitSystem
+from pages.Game.Components.BoardComponents.PitComponents.PitSystem import PitSystem
 
 
 class Game(ViewModel):
@@ -22,40 +22,37 @@ class Game(ViewModel):
         self.bg = Bg.BackgroundComponent(self.window, self.game_images_path)
         self.board = Board.BoardComponent(self.window, self.game_images_path)
 
-        pit_1_coordinates = (self.board.board_coordinates[0] + 57, self.board.board_coordinates[1] + 47)
-        self.pits_system = PitSystem(self.window, pit_1_coordinates)
+        self.pits_system = PitSystem(self.window, self.board.board_coordinates)
 
         self.player_turn = random.randint(1, 2)
+        self.player_turn_label = Label.LabelComponent(self.window,
+                                                      (self.window.get_width() // 2,
+                                                       (
+                                                               self.window.get_height() // 2 - self.board.board_height // 2) // 2),
+                                                      f"Player {self.player_turn} turn",
+                                                      72,
+                                                      AppSettings.colors['white'],
+                                                      True, background_color=AppSettings.colors['orange_h2'])
 
-    def __draw_player_turn_label(self, player_turn):
-
-        player_turn_label = Label.LabelComponent(self.window,
-                                                 (self.window.get_width() // 2,
-                                                  (self.window.get_height() // 2 - self.board.board_height // 2) // 2),
-                                                 f"Player {player_turn} turn",
-                                                 72,
-                                                 AppSettings.colors['white'],
-                                                 True, background_color=AppSettings.colors['orange_h2'])
-
-        indication = Label.LabelComponent(self.window,
-                                          (self.window.get_width() // 2,
-                                           (self.window.get_height() // 2 - self.board.board_height // 2) // 2 + 50),
-                                          "Click on one of your pits (highlighted in orange) to move",
-                                          36,
-                                          AppSettings.colors['white'])
-
-        player_turn_label._draw()
-        indication._draw()
-        player_turn_label.animate_scaling()
+        self.indication = Label.LabelComponent(self.window,
+                                               (self.window.get_width() // 2,
+                                                (
+                                                        self.window.get_height() // 2 - self.board.board_height // 2) // 2 + 50),
+                                               "Click on one of your pits (highlighted in orange) to move",
+                                               36,
+                                               AppSettings.colors['white'])
 
     def _load_view(self):
         self.bg._draw()
         self.board._draw()
 
-        self.pits_system.set_highlighted_pits(self.player_turn)
-        self.pits_system._draw()
-        self.__draw_player_turn_label(self.player_turn)
+        self.player_turn_label.set_text(f"Player {self.player_turn} turn")
+        self.indication._draw()
 
+        self.pits_system.set_highlighted_pits(self.player_turn)
+        self.pits_system.draw()
+
+        self.player_turn_label._draw()
         pygame.display.update()
 
     def _listen_for_events(self):

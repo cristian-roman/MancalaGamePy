@@ -4,7 +4,7 @@ import pygame
 
 from AppSettings import AppSettings
 from pages.Game.Components.GameComponent import GameComponent
-from pages.Game.Components.PitComponent.StoneComponent import StoneComponent
+from pages.Game.Components.BoardComponents.PitComponents.StoneComponent import StoneComponent
 from pages.Game.Components.LabelComponent import LabelComponent
 
 

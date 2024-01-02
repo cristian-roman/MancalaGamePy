@@ -38,9 +38,15 @@ class StoneComponent(GameComponent):
         self.stone_coordinates = (pit_coordinates[0] + self.offsets[stone_index][0] + random.randint(-1, 1),
                                   pit_coordinates[1] + self.offsets[stone_index][1] + random.randint(-1, 1))
 
-    def move_animate(self, new_coordinates):
-        new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(-1, 1),
-                                 new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(-1, 1))
+    def move_animate(self, new_coordinates, is_in_pot=False):
+        if is_in_pot:
+            a = -5
+            b = 5
+        else:
+            a = -1
+            b = 1
+        new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
+                                 new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
         self.__animate_move(new_stone_coordinates)
 
     def __delete_old_stone(self, old_coordinates):

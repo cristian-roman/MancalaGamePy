@@ -1,19 +1,18 @@
-from pages.Game.Components.GameComponent import GameComponent
-from pages.Game.Components.PitComponent.PitComponent import PitComponent
+from pages.Game.Components.BoardComponents.PitComponents.PitComponent import PitComponent
 
 
-class PitSystem(GameComponent):
+class PitSystem:
     space_between_pits = 116.5
     height_between_rows = 261
 
-    def __init__(self, window, first_pit_coordinates):
+    def __init__(self, window, board_coordinates):
         self.window = window
-        first_pit_coordinates = first_pit_coordinates
-
         self.pits = list()
-        self.__generate_pits(first_pit_coordinates)
+        self.__generate_pits(board_coordinates)
 
-    def __generate_pits(self, first_pit_coordinates):
+    def __generate_pits(self, board_coordinates):
+
+        first_pit_coordinates = (board_coordinates[0] + 57, board_coordinates[1] + 47)
 
         self.pits.append(PitComponent(self.window, first_pit_coordinates, 0))
         for i in range(1, 6):
@@ -46,7 +45,7 @@ class PitSystem(GameComponent):
             for i in range(6):
                 self.pits[i].delete_highlight()
 
-    def _draw(self):
+    def draw(self):
         for pit in self.pits:
             pit._draw()
 
@@ -57,13 +56,11 @@ class PitSystem(GameComponent):
                 if self.pits[i].is_mouse_hovering(mouse_position):
                     self.pits[i].treat_hovering()
                     to_return = i
-                    print(to_return)
         else:
             for i in range(6, 12):
                 if self.pits[i].is_mouse_hovering(mouse_position):
                     self.pits[i].treat_hovering()
                     to_return = i
-                    print(to_return)
         return to_return
 
     def move_stones(self, pit_index, left_pot, right_pot, player_turn):
@@ -75,7 +72,7 @@ class PitSystem(GameComponent):
                 stone = self.pits[pit_index].stones.pop()
                 destination = (pit_index - i - 1) + j
                 if destination < 0:
-                    stone.move_animate(left_pot.pot_coordinates)
+                    stone.move_animate(left_pot.stones_coordinates, True)
                     left_pot.add_stone(stone)
                     j += 13
                     destination_list.append('left_pot')
@@ -91,7 +88,7 @@ class PitSystem(GameComponent):
                 stone = self.pits[pit_index].stones.pop()
                 destination = (pit_index - i - 1) + j + reset
                 if destination == 5 and ok is True:
-                    stone.move_animate(right_pot.pot_coordinates)
+                    stone.move_animate(right_pot.stones_coordinates, True)
                     right_pot.add_stone(stone)
                     j += 1
                     destination_list.append('right_pot')

@@ -2,7 +2,7 @@ import os
 
 import pygame
 from pages.Game.Components.GameComponent import GameComponent
-from pages.Game.Components.PotComponent import PotComponent
+from pages.Game.Components.BoardComponents.PotComponent import PotComponent
 
 
 class BoardComponent(GameComponent):
