@@ -48,28 +48,9 @@ class Game(ViewModel):
         indication._draw()
         player_turn_label.animate_scaling()
 
-    def __draw_player_score_label(self, player, score):
-        if player == 1:
-            x = self.board.left_pot_coordinates[0] + self.board.pot_width // 2
-            y = self.board.left_pot_coordinates[1] + self.board.pot_height - 70
-            player1_label = Label.LabelComponent(self.window, (x, y), f"Player 1 Score: {score}", 36,
-                                                 AppSettings.colors['white'], True,
-                                                 AppSettings.colors['orange_h2'])
-            player1_label._draw()
-        else:
-            x = self.board.right_pot_coordinates[0] + self.board.pot_width // 2
-            y = self.board.right_pot_coordinates[1] + 45
-            player2_label = Label.LabelComponent(self.window, (x, y), f"Player 2 Score: {score}", 36,
-                                                 AppSettings.colors['white'], True,
-                                                 AppSettings.colors['orange_h2'])
-            player2_label._draw()
-
     def _load_view(self):
         self.bg._draw()
         self.board._draw()
-
-        self.__draw_player_score_label(1, 0)
-        self.__draw_player_score_label(2, 0)
 
         self.pits_system.set_highlighted_pits(self.player_turn)
         self.pits_system._draw()
@@ -84,12 +65,15 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
-        if self.player_turn == 1:
-            for i in range(6):
-                self.pits_system.pits[i].listen_for_hovering(pygame.mouse.get_pos())
-        else:
-            for i in range(6, 12):
-                self.pits_system.pits[i].listen_for_hovering(pygame.mouse.get_pos())
+        if self.__did_mouse_moved():
+            self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+
+        if pygame.mouse.get_pressed()[0] and self.pit_index is not None:
+            self.pits_system.move_stones(self.pit_index, self.board.left_pot, self.board.right_pot, self.player_turn)
+
+    @staticmethod
+    def __did_mouse_moved():
+        return pygame.mouse.get_rel() != (0, 0)
 
     def loop(self):
         self._listen_for_events()

@@ -20,6 +20,9 @@ class LabelComponent(GameComponent):
         self.background_color = background_color
         self.background_shape = background_shape
 
+    def set_text(self, text):
+        self.text = text
+
     def _draw(self):
         self.text_surface = pygame.font.Font(None, self.size).render(self.text, True, self.color)
         self.text_rect = self.text_surface.get_rect(center=self.position)
