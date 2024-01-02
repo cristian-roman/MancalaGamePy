@@ -61,14 +61,47 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
-        self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+            self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+            if pygame.mouse.get_pressed()[0] and self.pit_index is not None:
+                print("clicked")
+                last_destination = self.pits_system.move_stones(self.pit_index, self.board.left_pot,
+                                                                self.board.right_pot,
+                                                                self.player_turn)
 
-        if pygame.mouse.get_pressed()[0] and self.pit_index is not None:
-            print("clicked")
-            self.pits_system.move_stones(self.pit_index, self.board.left_pot, self.board.right_pot, self.player_turn)
-            self.change = True
+                if (last_destination == 'left_pot' and self.player_turn == 2 or
+                        last_destination == 'right_pot' and self.player_turn == 1):
+                    self.player_turn = 3 - self.player_turn
+
+                elif last_destination != 'left_pot' and last_destination != 'right_pot' and (
+                        self.pits_system.is_current_player_pit(last_destination, self.player_turn) and
+                        len(self.pits_system.pits[last_destination].stones) == 1):
+                    opposite_pit_index = abs(11 - self.pit_index)
+                    print("opposite index of pit:", self.pit_index, "is", opposite_pit_index)
+
+                    self.pits_system.move_all_to_player_pot(last_destination, self.board.left_pot,
+                                                            self.board.right_pot,
+                                                            self.player_turn)
+
+                    self.pits_system.move_all_to_player_pot(opposite_pit_index, self.board.left_pot,
+                                                            self.board.right_pot,
+                                                            self.player_turn)
+                else:
+                    self.player_turn = 3 - self.player_turn
+
+            if self.pits_system.is_game_over():
+                self._load_view()
+                self.indication.set_text(f"Player {self.get_winner()} won!")
+                return
 
     def loop(self):
         self._listen_for_events()
         self._load_view()
         pygame.display.update()
+
+    def get_winner(self):
+        if self.board.left_pot.get_score() > self.board.right_pot.get_score():
+            return 1
+        elif self.board.left_pot.get_score() < self.board.right_pot.get_score():
+            return 2
+        else:
+            return 0

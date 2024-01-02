@@ -104,3 +104,38 @@ class PitSystem:
                         reset += 12
 
         print(destination_list)
+        return destination_list[-1]
+
+    def move_all_to_player_pot(self, pit_index, left_pot, right_pot, player_turn):
+        number_of_stones = len(self.pits[pit_index].stones)
+        for i in range(number_of_stones):
+            stone = self.pits[pit_index].stones.pop()
+            if player_turn == 1:
+                stone.move_animate(left_pot.stones_coordinates, True)
+                left_pot.add_stone(stone)
+            else:
+                stone.move_animate(right_pot.stones_coordinates, True)
+                right_pot.add_stone(stone)
+
+    def is_game_over(self):
+        for i in range(6):
+            if len(self.pits[i].stones) != 0:
+                return False
+        for i in range(6, 12):
+            if len(self.pits[i].stones) != 0:
+                return False
+        return True
+
+    @staticmethod
+    def is_current_player_pit(last_destination, player_turn):
+        if player_turn == 1:
+            if last_destination < 6:
+                return True
+            else:
+                return False
+        else:
+            if last_destination >= 6:
+                return True
+            else:
+                return False
+
