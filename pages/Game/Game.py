@@ -27,9 +27,6 @@ class Game(ViewModel):
 
         self.player_turn = random.randint(1, 2)
 
-        self.once = True
-        self.change = False
-
     def __draw_player_turn_label(self, player_turn):
 
         player_turn_label = Label.LabelComponent(self.window,
@@ -52,18 +49,14 @@ class Game(ViewModel):
         player_turn_label.animate_scaling()
 
     def _load_view(self):
-        #if self.once is True:
-            self.bg._draw()
-            self.board._draw()
+        self.bg._draw()
+        self.board._draw()
 
-            self.pits_system.set_highlighted_pits(self.player_turn)
-            self.pits_system._draw()
+        self.pits_system.set_highlighted_pits(self.player_turn)
+        self.pits_system._draw()
+        self.__draw_player_turn_label(self.player_turn)
 
-            pygame.display.update()
-            self.once = False
-
-        #if self.change is True:
-            self.__draw_player_turn_label(self.player_turn)
+        pygame.display.update()
 
     def _listen_for_events(self):
         for event in pygame.event.get():
