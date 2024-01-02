@@ -56,6 +56,7 @@ class PitComponent(GameComponent):
         self.window.blit(ellipse_surface, self.pit_coordinates)
 
     def _draw(self):
+        self.label.set_text(str(len(self.stones)))
         self.label._draw()
         for stone in self.stones:
             stone._draw()
@@ -76,4 +77,7 @@ class PitComponent(GameComponent):
         self.highlight_width = 10
         self._draw()
         pygame.display.update()
+
+    def add_stone(self, stone):
+        self.stones.append(stone)
 

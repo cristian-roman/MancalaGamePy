@@ -57,6 +57,7 @@ class PitSystem(GameComponent):
                 if self.pits[i].is_mouse_hovering(mouse_position):
                     self.pits[i].treat_hovering()
                     to_return = i
+                    print(to_return)
         else:
             for i in range(6, 12):
                 if self.pits[i].is_mouse_hovering(mouse_position):
@@ -66,4 +67,43 @@ class PitSystem(GameComponent):
         return to_return
 
     def move_stones(self, pit_index, left_pot, right_pot, player_turn):
-        stones_to_move = self.pits[pit_index].stones
+        number_of_stones = len(self.pits[pit_index].stones)
+        destination_list = list()
+        if player_turn == 1:
+            j = 0
+            for i in range(number_of_stones):
+                stone = self.pits[pit_index].stones.pop()
+                destination = (pit_index - i - 1) + j
+                if destination < 0:
+                    stone.move_animate(left_pot.pot_coordinates)
+                    left_pot.add_stone(stone)
+                    j += 13
+                    destination_list.append('left_pot')
+                else:
+                    stone.move_animate(self.pits[destination].pit_coordinates)
+                    self.pits[destination].add_stone(stone)
+                    destination_list.append(destination)
+        else:
+            j = 0
+            ok = True
+            reset = 0
+            for i in range(number_of_stones):
+                stone = self.pits[pit_index].stones.pop()
+                destination = (pit_index - i - 1) + j + reset
+                if destination == 5 and ok is True:
+                    stone.move_animate(right_pot.pot_coordinates)
+                    right_pot.add_stone(stone)
+                    j += 1
+                    destination_list.append('right_pot')
+                    ok = False
+                else:
+                    if destination == 5:
+                        ok = True
+                    stone.move_animate(self.pits[destination].pit_coordinates)
+                    self.pits[destination].add_stone(stone)
+                    destination_list.append(destination)
+                    if destination == 0:
+                        ok = True
+                        reset += 12
+
+        print(destination_list)

@@ -23,10 +23,12 @@ class BoardComponent(GameComponent):
         self.board_coordinates = (board_x, board_y)
 
         self.left_pot = PotComponent(window,
-                                     (self.board_coordinates[0] - PotComponent.pot_width + 100, self.board_coordinates[1] - 80),
+                                     (self.board_coordinates[0] - PotComponent.pot_width + 100,
+                                      self.board_coordinates[1] - 80),
                                      images_path)
         self.right_pot = PotComponent(window,
-                                      (self.board_coordinates[0] + self.board_width - 100, self.board_coordinates[1] + self.board_height + 100),
+                                      (self.board_coordinates[0] + self.board_width - 100,
+                                       self.board_coordinates[1] + self.board_height - PotComponent.pot_height + 100),
                                       images_path)
 
     def _draw(self):

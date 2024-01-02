@@ -3,6 +3,7 @@ import random
 
 import pygame
 
+from AppSettings import AppSettings
 from pages.Game.Components.GameComponent import GameComponent
 
 
@@ -37,12 +38,20 @@ class StoneComponent(GameComponent):
         self.stone_coordinates = (pit_coordinates[0] + self.offsets[stone_index][0] + random.randint(-1, 1),
                                   pit_coordinates[1] + self.offsets[stone_index][1] + random.randint(-1, 1))
 
-    def move(self, new_coordinates):
+    def move_animate(self, new_coordinates):
         new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(-1, 1),
                                  new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(-1, 1))
         self.__animate_move(new_stone_coordinates)
 
+    def __delete_old_stone(self, old_coordinates):
+        transparent_surface = pygame.Surface(self.stone.get_size(), pygame.SRCALPHA)
+        transparent_surface.fill(AppSettings.colors['no_color'])
+        transparent_surface.blit(self.stone, (0, 0))
+        self.window.blit(transparent_surface, old_coordinates)
+
     def __animate_move(self, new_stone_coordinates):
+
+        speed = 20
 
         multiplier_x = 1
         if new_stone_coordinates[0] < self.stone_coordinates[0]:
@@ -52,10 +61,10 @@ class StoneComponent(GameComponent):
         if new_stone_coordinates[1] < self.stone_coordinates[1]:
             multiplier_y = -1
 
-        step_x = (new_stone_coordinates[0] - self.stone_coordinates[0]) // 60 * multiplier_x
-        step_y = (new_stone_coordinates[1] - self.stone_coordinates[1]) // 60 * multiplier_y
+        step_x = (new_stone_coordinates[0] - self.stone_coordinates[0]) // speed * multiplier_x
+        step_y = (new_stone_coordinates[1] - self.stone_coordinates[1]) // speed * multiplier_y
 
-        for i in range(59):
+        for i in range(speed - 1):
             self.stone_coordinates = (self.stone_coordinates[0] + step_x,
                                       self.stone_coordinates[1] + step_y)
             self._draw()

@@ -27,6 +27,9 @@ class Game(ViewModel):
 
         self.player_turn = random.randint(1, 2)
 
+        self.once = True
+        self.change = False
+
     def __draw_player_turn_label(self, player_turn):
 
         player_turn_label = Label.LabelComponent(self.window,
@@ -49,15 +52,18 @@ class Game(ViewModel):
         player_turn_label.animate_scaling()
 
     def _load_view(self):
-        self.bg._draw()
-        self.board._draw()
+        #if self.once is True:
+            self.bg._draw()
+            self.board._draw()
 
-        self.pits_system.set_highlighted_pits(self.player_turn)
-        self.pits_system._draw()
+            self.pits_system.set_highlighted_pits(self.player_turn)
+            self.pits_system._draw()
 
-        self.__draw_player_turn_label(self.player_turn)
+            pygame.display.update()
+            self.once = False
 
-        pygame.display.update()
+        #if self.change is True:
+            self.__draw_player_turn_label(self.player_turn)
 
     def _listen_for_events(self):
         for event in pygame.event.get():
@@ -65,15 +71,12 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
-        if self.__did_mouse_moved():
-            self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+        self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
 
         if pygame.mouse.get_pressed()[0] and self.pit_index is not None:
+            print("clicked")
             self.pits_system.move_stones(self.pit_index, self.board.left_pot, self.board.right_pot, self.player_turn)
-
-    @staticmethod
-    def __did_mouse_moved():
-        return pygame.mouse.get_rel() != (0, 0)
+            self.change = True
 
     def loop(self):
         self._listen_for_events()

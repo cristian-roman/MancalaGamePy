@@ -42,3 +42,6 @@ class PotComponent(GameComponent):
 
         self.score_label.set_text(self.score_label_text + str(len(self.stones)))
         self.score_label._draw()
+
+    def add_stone(self, stone):
+        self.stones.append(stone)
