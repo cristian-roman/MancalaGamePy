@@ -15,7 +15,7 @@ class App:
         font = pygame.font.Font(None, 30)
         AppSettings.init(font)
 
-        App.window = pygame.display.set_mode((AppSettings.width, AppSettings.height))
+        App.window = pygame.display.set_mode((AppSettings.width, AppSettings.height),  pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.SRCALPHA)
         pygame.display.set_caption(AppSettings.name)
 
         ViewTree.init(UI(App.window))
