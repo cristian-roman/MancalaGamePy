@@ -30,7 +30,7 @@ class Game(ViewModel):
         self.player_turn_label = Label.LabelComponent(self.window,
                                                       (self.window.get_width() // 2,
                                                        (
-                                                               self.window.get_height() // 2 - self.board.board_height // 2) // 2),
+                                                               self.window.get_height() // 2 - AppSettings.board_height // 2) // 2),
                                                       f"Player {self.player_turn} turn",
                                                       72,
                                                       AppSettings.colors['white'],
@@ -39,7 +39,7 @@ class Game(ViewModel):
         self.indication = Label.LabelComponent(self.window,
                                                (self.window.get_width() // 2,
                                                 (
-                                                        self.window.get_height() // 2 - self.board.board_height // 2) // 2 + 50),
+                                                        self.window.get_height() // 2 - AppSettings.board_height // 2) // 2 + 50),
                                                "Click on one of your pits (highlighted in orange) to move",
                                                36,
                                                AppSettings.colors['white'])
