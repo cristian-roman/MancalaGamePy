@@ -4,12 +4,14 @@ import sys
 
 import pygame
 
+from ViewTree import ViewTree
 from AppSettings import AppSettings
 from pages.Game.Components import BackgroundComponent as Bg
 from pages.Game.Components.BoardComponents import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
 from pages.ViewModel import ViewModel
 from pages.Game.Components.BoardComponents.PitComponents.PitSystem import PitSystem
+from pages.Game.EndScreen.EndScreen import EndScreen
 
 
 class Game(ViewModel):
@@ -100,6 +102,8 @@ class Game(ViewModel):
     def loop(self):
         self._listen_for_events()
         self._load_view()
+        if self.is_game_over:
+            ViewTree.push_view(EndScreen(self.window))
 
     def get_winner(self):
         if self.board.left_pot.get_score() > self.board.right_pot.get_score():
