@@ -48,8 +48,6 @@ class StoneComponent(GameComponent):
         new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
                                  new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
         self.stone_coordinates = new_stone_coordinates
-        self._draw()
-        pygame.display.update()
 
     def _draw(self):
         self.window.blit(self.stone, self.stone_coordinates)
