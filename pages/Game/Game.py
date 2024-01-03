@@ -46,6 +46,12 @@ class Game(ViewModel):
                                                36,
                                                AppSettings.colors['white'])
 
+        self.pve = False
+
+    def set_pve(self):
+        self.pve = True
+        self.player_turn = 1
+
     def __draw_player_turn_label(self):
         if self.player_turn == 1:
             self.player_turn_label.set_background_color(AppSettings.colors['orange_h2'])
@@ -55,6 +61,7 @@ class Game(ViewModel):
         self.player_turn_label._draw()
 
     def _load_view(self):
+
         self.bg._draw()
         self.board._draw()
 
@@ -74,11 +81,16 @@ class Game(ViewModel):
                 pygame.quit()
                 sys.exit()
 
-        self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+        if self.pve and self.player_turn == 2:
+            random_index = random.randint(8, 13)
+            self.pit_index = self.pits_system.treat_hovering(pit_index=random_index)
+        else:
+            self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
 
-        if (pygame.mouse.get_pressed()[0]
-                and self.pit_index is not None
-                and len(self.pits_system.pits[self.pit_index].stones) != 0):
+        if self.pit_index is not None and pygame.mouse.get_pressed()[0] or (self.pve is True and self.player_turn == 2):
+
+            if len(self.pits_system.pits[self.pit_index].stones) == 0:
+                return
 
             destination_list = self.pits_system.move_stones(self.pit_index, self.player_turn)
             last_destination = destination_list[-1]
