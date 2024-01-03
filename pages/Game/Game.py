@@ -83,19 +83,19 @@ class Game(ViewModel):
 
                 self.player_turn = 1 if self.player_turn == 2 else 2
 
-        player_finished = self.pits_system.is_game_over()
+            player_finished = self.pits_system.is_game_over()
 
-        if player_finished is not False:
-            if player_finished == 1:
-                for i in range(8, 14):
-                    self.pits_system.move_all_to_player_pot(i, 2)
-            else:
-                for i in range(1, 7):
-                    self.pits_system.move_all_to_player_pot(i, 1)
-            self.player_turn_label.set_text(f"Player {self.get_winner()} won!")
-            self.is_game_over = True
+            if player_finished is not False:
+                if player_finished == 1:
+                    for i in range(8, 14):
+                        self.pits_system.move_all_to_player_pot(i, 2)
+                else:
+                    for i in range(1, 7):
+                        self.pits_system.move_all_to_player_pot(i, 1)
+                self.player_turn_label.set_text(f"Player {self.get_winner()} won!")
+                self.is_game_over = True
 
-        self.pit_index = None
+            self.pit_index = None
 
     def loop(self):
         self._listen_for_events()

@@ -144,9 +144,5 @@ class PitSystem:
 
         for i in range(8, 14):
             if len(self.pits[i].stones) != 0:
-                answer = False
-
-        if answer is None:
-            return 2
-
-        return answer
+                return False
+        return 2
