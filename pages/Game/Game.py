@@ -52,11 +52,12 @@ class Game(ViewModel):
 
             self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             self.indication._draw()
-
-            self.pits_system.set_highlighted_pits(self.player_turn)
+            if self.pits_system.moving_stones is False:
+                self.pits_system.set_highlighted_pits(self.player_turn)
             self.pits_system.draw()
 
         self.player_turn_label._draw()
+        pygame.display.update()
 
     def _listen_for_events(self):
         for event in pygame.event.get():
@@ -99,7 +100,6 @@ class Game(ViewModel):
     def loop(self):
         self._listen_for_events()
         self._load_view()
-        pygame.display.update()
 
     def get_winner(self):
         if self.board.left_pot.get_score() > self.board.right_pot.get_score():
