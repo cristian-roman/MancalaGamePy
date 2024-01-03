@@ -53,23 +53,19 @@ class PitSystem:
         for pit in self.pits:
             pit._draw()
 
-    def treat_hovering(self, mouse_position=None, player_turn=None, pit_index=None):
-        if pit_index is not None:
-            self.pits[pit_index].treat_hovering()
-            return pit_index
+    def treat_hovering(self, mouse_position, player_turn):
+        to_return = None
+        if player_turn == 1:
+            for i in range(1, 7):
+                if self.pits[i].is_mouse_hovering(mouse_position):
+                    self.pits[i].treat_hovering()
+                    to_return = i
         else:
-            to_return = None
-            if player_turn == 1:
-                for i in range(1, 7):
-                    if self.pits[i].is_mouse_hovering(mouse_position):
-                        self.pits[i].treat_hovering()
-                        to_return = i
-            else:
-                for i in range(8, 14):
-                    if self.pits[i].is_mouse_hovering(mouse_position):
-                        self.pits[i].treat_hovering()
-                        to_return = i
-            return to_return
+            for i in range(8, 14):
+                if self.pits[i].is_mouse_hovering(mouse_position):
+                    self.pits[i].treat_hovering()
+                    to_return = i
+        return to_return
 
     def move_stones(self, pit_index, player_turn):
         self.moving_stones = True
