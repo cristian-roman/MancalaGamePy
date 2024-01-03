@@ -47,35 +47,6 @@ class StoneComponent(GameComponent):
             b = 1
         new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
                                  new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
-        self.__animate_move(new_stone_coordinates)
-
-    def __delete_old_stone(self, old_coordinates):
-        transparent_surface = pygame.Surface(self.stone.get_size(), pygame.SRCALPHA)
-        transparent_surface.fill(AppSettings.colors['no_color'])
-        transparent_surface.blit(self.stone, (0, 0))
-        self.window.blit(transparent_surface, old_coordinates)
-
-    def __animate_move(self, new_stone_coordinates):
-
-        speed = 20
-
-        multiplier_x = 1
-        if new_stone_coordinates[0] < self.stone_coordinates[0]:
-            multiplier_x = -1
-
-        multiplier_y = 1
-        if new_stone_coordinates[1] < self.stone_coordinates[1]:
-            multiplier_y = -1
-
-        step_x = (new_stone_coordinates[0] - self.stone_coordinates[0]) // speed * multiplier_x
-        step_y = (new_stone_coordinates[1] - self.stone_coordinates[1]) // speed * multiplier_y
-
-        for i in range(speed - 1):
-            self.stone_coordinates = (self.stone_coordinates[0] + step_x,
-                                      self.stone_coordinates[1] + step_y)
-            self._draw()
-            pygame.display.update()
-
         self.stone_coordinates = new_stone_coordinates
         self._draw()
         pygame.display.update()

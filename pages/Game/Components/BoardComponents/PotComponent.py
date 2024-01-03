@@ -47,3 +47,6 @@ class PotComponent(GameComponent):
 
     def add_stone(self, stone):
         self.stones.append(stone)
+
+    def get_score(self):
+        return len(self.stones)
