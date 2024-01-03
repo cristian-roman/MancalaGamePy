@@ -26,13 +26,15 @@ class PitComponent(GameComponent):
 
         if self.pit_coordinates[1] < self.window.get_height() // 2:
             label_y = self.pit_coordinates[1] - 20
+            self.color = AppSettings.colors['orange_h4']
         else:
             label_y = self.pit_coordinates[1] + self.pit_height + 20
+            self.color = AppSettings.colors['orange_h6']
 
         self.label = LabelComponent(self.window, (self.pit_coordinates[0] + self.pit_width // 2,
                                                   label_y),
                                     str(len(self.stones)), 50, AppSettings.colors['white'],
-                                    True, AppSettings.colors['orange_h4'], 'ellipse')
+                                    True, self.color, 'ellipse')
 
     def __init_stone(self):
         self.generator_number = (self.generator_number + 1) % 5 + 1
@@ -47,7 +49,7 @@ class PitComponent(GameComponent):
     def __draw_ellipse(self):
         zone = pygame.Rect(self.pit_coordinates[0], self.pit_coordinates[1],
                            self.pit_width, self.pit_height)
-        pygame.draw.ellipse(self.window, AppSettings.colors['orange_h4'], zone, self.highlight_width)
+        pygame.draw.ellipse(self.window, self.color, zone, self.highlight_width)
 
     def __erase_ellipse(self):
         ellipse_surface = pygame.Surface((self.pit_width, self.pit_height), pygame.SRCALPHA)

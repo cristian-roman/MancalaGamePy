@@ -20,6 +20,7 @@ class UI(ViewModel):
         self.window = window
 
         self.bg_image_path = os.path.join(self.ui_images_path, 'background.jpeg')
+        self.bg_button_image_path = os.path.join(self.ui_images_path, 'button-bg.jpeg')
 
         self.ui_bg_image = pygame.image.load(self.bg_image_path)
         self.ui_bg_image = pygame.transform.scale(self.ui_bg_image, (self.window.get_width(), self.window.get_height()))
@@ -27,11 +28,13 @@ class UI(ViewModel):
         self.play_button = ButtonComponent(self.window, "Play",
                                            (self.window.get_width() // 2 - self.button_width,
                                             self.window.get_height() // 3 * 2),
-                                           (self.button_width, self.button_height))
+                                           (self.button_width, self.button_height),
+                                           self.bg_button_image_path)
 
         self.quit_button = ButtonComponent(self.window, "Quit",
                                            (self.window.get_width() // 2, self.window.get_height() // 3 * 2),
-                                           (self.button_width, self.button_height))
+                                           (self.button_width, self.button_height),
+                                           self.bg_button_image_path)
 
     def _listen_for_events(self):
         for event in pygame.event.get():
@@ -44,11 +47,6 @@ class UI(ViewModel):
                 elif self.quit_button.button_rect.collidepoint(event.pos):
                     pygame.quit()
                     sys.exit()
-
-    def __display_text_centered(self, text, color, rect):
-        text_surface = AppSettings.font.render(text, True, color)
-        text_rect = text_surface.get_rect(center=rect.center)
-        self.window.blit(text_surface, text_rect)
 
     def _load_view(self):
         self.window.blit(self.ui_bg_image, (0, 0))

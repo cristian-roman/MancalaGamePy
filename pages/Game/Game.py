@@ -46,19 +46,26 @@ class Game(ViewModel):
                                                36,
                                                AppSettings.colors['white'])
 
+    def __draw_player_turn_label(self):
+        if self.player_turn == 1:
+            self.player_turn_label.set_background_color(AppSettings.colors['orange_h2'])
+        else:
+            self.player_turn_label.set_background_color(AppSettings.colors['orange_h6'])
+
+        self.player_turn_label._draw()
+
     def _load_view(self):
         self.bg._draw()
         self.board._draw()
 
         if not self.is_game_over:
-
-            self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             self.indication._draw()
+            self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             if self.pits_system.moving_stones is False:
                 self.pits_system.set_highlighted_pits(self.player_turn)
             self.pits_system.draw()
 
-        self.player_turn_label._draw()
+        self.__draw_player_turn_label()
         pygame.display.update()
 
     def _listen_for_events(self):

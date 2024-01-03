@@ -29,6 +29,9 @@ class LabelComponent(GameComponent):
     def set_text(self, text):
         self.text = text
 
+    def set_background_color(self, color):
+        self.background_color = color
+
     def _draw(self):
         self.text_surface = pygame.font.Font(None, self.size).render(self.text, True, self.color)
         self.text_rect = self.text_surface.get_rect(center=self.position)
