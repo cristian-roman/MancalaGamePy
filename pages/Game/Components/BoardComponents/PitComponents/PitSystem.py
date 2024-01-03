@@ -12,6 +12,7 @@ class PitSystem:
         self.right_pot = right_pot
         self.pits.append(left_pot)
         self.__generate_pits(board_coordinates)
+        self.moving_stones = False
 
     def __generate_pits(self, board_coordinates):
 
@@ -67,6 +68,7 @@ class PitSystem:
         return to_return
 
     def move_stones(self, pit_index, player_turn):
+        self.moving_stones = True
         destination_list = list()
         number_of_stones = len(self.pits[pit_index].stones)
         for i in range(number_of_stones):
@@ -84,7 +86,7 @@ class PitSystem:
                 coordinates = self.pits[destination].pit_coordinates
             stone.move_animate(coordinates, is_in_pot)
             self.pits[destination].add_stone(stone)
-
+        self.moving_stones = False
         return destination_list
 
     @staticmethod
@@ -115,6 +117,7 @@ class PitSystem:
             return destination in range(8, 14)
 
     def move_all_to_player_pot(self, pit_index, player_turn):
+        self.moving_stones = True
         number_of_stones = len(self.pits[pit_index].stones)
         if player_turn == 1:
             pot = self.left_pot
@@ -125,6 +128,7 @@ class PitSystem:
             stone = self.pits[pit_index].stones.pop()
             stone.move_animate(pot.stones_coordinates, True)
             pot.add_stone(stone)
+        self.moving_stones = False
 
     def was_pit_empty(self, last_destination):
         return len(self.pits[last_destination].stones) == 1
@@ -140,9 +144,5 @@ class PitSystem:
 
         for i in range(8, 14):
             if len(self.pits[i].stones) != 0:
-                answer = False
-
-        if answer is None:
-            return 2
-
-        return answer
+                return False
+        return 2
