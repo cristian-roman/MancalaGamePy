@@ -4,12 +4,14 @@ import sys
 
 import pygame
 
+from ViewTree import ViewTree
 from AppSettings import AppSettings
 from pages.Game.Components import BackgroundComponent as Bg
 from pages.Game.Components.BoardComponents import BoardComponent as Board
 from pages.Game.Components import LabelComponent as Label
 from pages.ViewModel import ViewModel
 from pages.Game.Components.BoardComponents.PitComponents.PitSystem import PitSystem
+from pages.Game.EndScreen.EndScreen import EndScreen
 
 
 class Game(ViewModel):
@@ -30,7 +32,7 @@ class Game(ViewModel):
         self.player_turn_label = Label.LabelComponent(self.window,
                                                       (self.window.get_width() // 2,
                                                        (
-                                                               self.window.get_height() // 2 - self.board.board_height // 2) // 2),
+                                                               self.window.get_height() // 2 - AppSettings.board_height // 2) // 2),
                                                       f"Player {self.player_turn} turn",
                                                       72,
                                                       AppSettings.colors['white'],
@@ -39,24 +41,31 @@ class Game(ViewModel):
         self.indication = Label.LabelComponent(self.window,
                                                (self.window.get_width() // 2,
                                                 (
-                                                        self.window.get_height() // 2 - self.board.board_height // 2) // 2 + 50),
+                                                        self.window.get_height() // 2 - AppSettings.board_height // 2) // 2 + 50),
                                                "Click on one of your pits (highlighted in orange) to move",
                                                36,
                                                AppSettings.colors['white'])
+
+    def __draw_player_turn_label(self):
+        if self.player_turn == 1:
+            self.player_turn_label.set_background_color(AppSettings.colors['orange_h2'])
+        else:
+            self.player_turn_label.set_background_color(AppSettings.colors['orange_h6'])
+
+        self.player_turn_label._draw()
 
     def _load_view(self):
         self.bg._draw()
         self.board._draw()
 
         if not self.is_game_over:
-
-            self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             self.indication._draw()
+            self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             if self.pits_system.moving_stones is False:
                 self.pits_system.set_highlighted_pits(self.player_turn)
             self.pits_system.draw()
 
-        self.player_turn_label._draw()
+        self.__draw_player_turn_label()
         pygame.display.update()
 
     def _listen_for_events(self):
@@ -100,6 +109,8 @@ class Game(ViewModel):
     def loop(self):
         self._listen_for_events()
         self._load_view()
+        if self.is_game_over:
+            ViewTree.push_view(EndScreen(self.window))
 
     def get_winner(self):
         if self.board.left_pot.get_score() > self.board.right_pot.get_score():

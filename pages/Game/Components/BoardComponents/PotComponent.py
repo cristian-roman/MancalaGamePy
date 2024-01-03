@@ -21,16 +21,18 @@ class PotComponent(GameComponent):
         if pot_coordinates[1] < self.window.get_height() // 2:
             self.score_label_y = self.pot_coordinates[1] + self.pot_height - 70
             self.score_label_text = "Player 1 Score: "
+            self.color = AppSettings.colors['orange_h2']
         else:
             self.score_label_y = self.pot_coordinates[1] + 45
             self.score_label_text = "Player 2 Score: "
+            self.color = AppSettings.colors['orange_h6']
 
         self.score_label = Label.LabelComponent(self.window,
                                                 (self.score_label_x, self.score_label_y),
                                                 self.score_label_text, 36,
                                                 AppSettings.colors['white'],
                                                 True,
-                                                AppSettings.colors['orange_h2'])
+                                                self.color)
 
         self.pot = pygame.image.load(os.path.join(images_path, self.pot_file_name))
         self.pot = pygame.transform.scale(self.pot, (self.pot_width, self.pot_height))

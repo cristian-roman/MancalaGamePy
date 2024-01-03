@@ -1,6 +1,6 @@
 import pygame
 
-from pages.UI import UI
+from pages.UI.UI import UI
 from ViewTree import ViewTree
 from AppSettings import AppSettings
 

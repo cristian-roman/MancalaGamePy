@@ -9,8 +9,11 @@ class AppSettings:
         'green': (0, 255, 0),
         'orange_h4': (230, 115, 0),
         'orange_h2': (179, 89, 0),
-        'no_color': (0, 0, 0, 0)
+        'no_color': (0, 0, 0, 0),
+        'orange_h6': (161, 61, 27)
     }
+    board_width = 800
+    board_height = 500
 
     font = None
 

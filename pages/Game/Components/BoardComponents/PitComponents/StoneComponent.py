@@ -51,7 +51,7 @@ class StoneComponent(GameComponent):
         self.round += 1
         new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
                                  new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
-        speed = 10
+        speed = 10`
         if new_stone_coordinates[0] < self.stone_coordinates[0]:
             multiplier_x = -1
         else:
