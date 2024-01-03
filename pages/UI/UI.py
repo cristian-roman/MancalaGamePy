@@ -25,14 +25,21 @@ class UI(ViewModel):
         self.ui_bg_image = pygame.image.load(self.bg_image_path)
         self.ui_bg_image = pygame.transform.scale(self.ui_bg_image, (self.window.get_width(), self.window.get_height()))
 
-        self.play_button = ButtonComponent(self.window, "Play",
-                                           (self.window.get_width() // 2 - self.button_width,
-                                            self.window.get_height() // 3 * 2),
-                                           (self.button_width, self.button_height),
-                                           self.bg_button_image_path)
+        self.first_x_coordinate = self.window.get_width() // 2 - self.button_width * 2 + 25
+        self.first_y_coordinate = self.window.get_height() // 3 * 2 + 100
+
+        self.play_pvp_button = ButtonComponent(self.window, "Play pvp",
+                                               (self.first_x_coordinate, self.first_y_coordinate),
+                                               (self.button_width, self.button_height),
+                                               self.bg_button_image_path)
+
+        self.play_pve_button = ButtonComponent(self.window, "Play pve",
+                                               (self.first_x_coordinate + self.button_width + 50, self.first_y_coordinate),
+                                               (self.button_width, self.button_height),
+                                               self.bg_button_image_path)
 
         self.quit_button = ButtonComponent(self.window, "Quit",
-                                           (self.window.get_width() // 2, self.window.get_height() // 3 * 2),
+                                           (self.first_x_coordinate + self.button_width * 2 + 100, self.first_y_coordinate),
                                            (self.button_width, self.button_height),
                                            self.bg_button_image_path)
 
@@ -42,15 +49,20 @@ class UI(ViewModel):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.play_button.button_rect.collidepoint(event.pos):
+                if self.play_pvp_button.button_rect.collidepoint(event.pos):
                     ViewTree.push_view(Game(self.window))
+                elif self.play_pve_button.button_rect.collidepoint(event.pos):
+                    game_view = Game(self.window)
+                    game_view.set_pve()
+                    ViewTree.push_view(game_view)
                 elif self.quit_button.button_rect.collidepoint(event.pos):
                     pygame.quit()
                     sys.exit()
 
     def _load_view(self):
         self.window.blit(self.ui_bg_image, (0, 0))
-        self.play_button._draw()
+        self.play_pvp_button._draw()
+        self.play_pve_button._draw()
         self.quit_button._draw()
 
     def loop(self):

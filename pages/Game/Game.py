@@ -46,6 +46,13 @@ class Game(ViewModel):
                                                36,
                                                AppSettings.colors['white'])
 
+        self.pve = False
+        self.player_turn = random.randint(1, 2)
+        self.first_load = True
+
+    def set_pve(self):
+        self.pve = True
+
     def __draw_player_turn_label(self):
         if self.player_turn == 1:
             self.player_turn_label.set_background_color(AppSettings.colors['orange_h2'])
@@ -55,12 +62,16 @@ class Game(ViewModel):
         self.player_turn_label._draw()
 
     def _load_view(self):
+
         self.bg._draw()
         self.board._draw()
 
         if not self.is_game_over:
             self.indication._draw()
-            self.player_turn_label.set_text(f"Player {self.player_turn} turn")
+            if self.pve and self.player_turn == 2:
+                self.player_turn_label.set_text("Computer turn")
+            else:
+                self.player_turn_label.set_text(f"Player {self.player_turn} turn")
             if self.pits_system.moving_stones is False:
                 self.pits_system.set_highlighted_pits(self.player_turn)
             self.pits_system.draw()
@@ -68,17 +79,27 @@ class Game(ViewModel):
         self.__draw_player_turn_label()
         pygame.display.update()
 
+        if self.first_load and self.pve is True and self.player_turn == 2:
+            self.first_load = False
+            pygame.time.delay(1000)
+
     def _listen_for_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-        self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
+        if self.pve and self.player_turn == 2:
+            random_index = random.randint(8, 13)
+            pos = self.pits_system.pits[random_index].pit_coordinates
+            self.pit_index = self.pits_system.treat_hovering(pos, self.player_turn)
+        else:
+            self.pit_index = self.pits_system.treat_hovering(pygame.mouse.get_pos(), self.player_turn)
 
-        if (pygame.mouse.get_pressed()[0]
-                and self.pit_index is not None
-                and len(self.pits_system.pits[self.pit_index].stones) != 0):
+        if self.pit_index is not None and pygame.mouse.get_pressed()[0] or (self.pve is True and self.player_turn == 2):
+
+            if len(self.pits_system.pits[self.pit_index].stones) == 0:
+                return
 
             destination_list = self.pits_system.move_stones(self.pit_index, self.player_turn)
             last_destination = destination_list[-1]
@@ -103,12 +124,13 @@ class Game(ViewModel):
                         self.pits_system.move_all_to_player_pot(i, 1)
                 self.player_turn_label.set_text(f"Player {self.get_winner()} won!")
                 self.is_game_over = True
+                self._load_view()
 
             self.pit_index = None
 
     def loop(self):
-        self._listen_for_events()
         self._load_view()
+        self._listen_for_events()
         if self.is_game_over:
             ViewTree.push_view(EndScreen(self.window))
 
