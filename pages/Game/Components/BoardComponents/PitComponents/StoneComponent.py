@@ -52,18 +52,28 @@ class StoneComponent(GameComponent):
         self.stone_index = stone_index
         self.window = window
 
-        self.stone = pygame.image.load(os.path.join(self.stone_images_path, f'stone_{stone_index}.png'))
-        self.stone = pygame.transform.scale(self.stone, self.sizes[stone_index])
-        self.stone = pygame.transform.rotate(self.stone, random.randint(0, 360))
+        self.stone = pygame.image.load(
+            os.path.join(
+                self.stone_images_path,
+                f'stone_{stone_index}.png'))
+        self.stone = (
+            pygame.transform.scale(self.stone, self.sizes[stone_index]))
+        self.stone = (
+            pygame.transform.rotate(self.stone, random.randint(0, 360)))
 
-        self.stone_coordinates = (pit_coordinates[0] + self.offsets[stone_index][0] + random.randint(-1, 1),
-                                  pit_coordinates[1] + self.offsets[stone_index][1] + random.randint(-1, 1))
+        self.stone_coordinates = (pit_coordinates[0]
+                                  + self.offsets[stone_index][0]
+                                  + random.randint(-1, 1),
+                                  pit_coordinates[1]
+                                  + self.offsets[stone_index][1]
+                                  + random.randint(-1, 1))
 
     def move_animate(self, new_coordinates, is_in_pot=False):
         """
         Moves the stone to the new coordinates. It animates the movement.
         :param new_coordinates: new pit coordinates
-        :param is_in_pot: False default, True if the new coordinates point to a pot
+        :param is_in_pot:   False default,
+                            True if the new coordinates point to a pot
         :return: None
         """
         if is_in_pot:
@@ -73,8 +83,12 @@ class StoneComponent(GameComponent):
             a = -1
             b = 1
 
-        new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
-                                 new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
+        new_stone_coordinates = (new_coordinates[0]
+                                 + self.offsets[self.stone_index][0]
+                                 + random.randint(a, b),
+                                 new_coordinates[1]
+                                 + self.offsets[self.stone_index][1]
+                                 + random.randint(a, b))
         speed = 10
         if new_stone_coordinates[0] < self.stone_coordinates[0]:
             multiplier_x = -1
@@ -86,13 +100,17 @@ class StoneComponent(GameComponent):
         else:
             multiplier_y = 1
 
-        step_x = abs(new_stone_coordinates[0] - self.stone_coordinates[0]) / speed
-        step_y = abs(new_stone_coordinates[1] - self.stone_coordinates[1]) / speed
+        step_x = abs(new_stone_coordinates[0]
+                     - self.stone_coordinates[0]) / speed
+        step_y = abs(new_stone_coordinates[1]
+                     - self.stone_coordinates[1]) / speed
 
         for i in range(1, speed):
 
-            self.stone_coordinates = (self.stone_coordinates[0] + step_x * multiplier_x,
-                                      self.stone_coordinates[1] + step_y * multiplier_y)
+            self.stone_coordinates = (self.stone_coordinates[0]
+                                      + step_x * multiplier_x,
+                                      self.stone_coordinates[1]
+                                      + step_y * multiplier_y)
             ViewTree.ViewTree.get_current_view()._load_view()
             self._draw()
             pygame.display.update()

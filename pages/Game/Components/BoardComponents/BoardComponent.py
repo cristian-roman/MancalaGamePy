@@ -46,11 +46,13 @@ class BoardComponent(GameComponent):
         super().__init__()
         self.window = window
 
-        self.board = pygame.image.load(os.path.join(images_path,
-                                                    self.BOARD_FILE_NAME))
-        self.board = pygame.transform.scale(self.board,
-                                            (AppSettings.board_width,
-                                             AppSettings.board_height))
+        self.board = pygame.image.load(
+            os.path.join(images_path,
+                         self.BOARD_FILE_NAME))
+        self.board = (
+            pygame.transform.scale(self.board,
+                                   (AppSettings.board_width,
+                                    AppSettings.board_height)))
         board_x = (self.window.get_width() // 2
                    - AppSettings.board_width // 2)
         board_y = (self.window.get_height() // 2
@@ -59,7 +61,7 @@ class BoardComponent(GameComponent):
 
         self.left_pot = PotComponent(window,
                                      (self.board_coordinates[0]
-                                      - PotComponent.pot_width
+                                      - PotComponent.POT_WIDTH
                                       + self.LEFT_POT_X_OFFSET,
                                       self.board_coordinates[1]
                                       + self.LEFT_POT_Y_OFFSET),
@@ -70,7 +72,7 @@ class BoardComponent(GameComponent):
                                        + self.RIGHT_POT_X_OFFSET,
                                        self.board_coordinates[1]
                                        + AppSettings.board_height
-                                       - PotComponent.pot_height
+                                       - PotComponent.POT_HEIGHT
                                        + self.RIGHT_POT_Y_OFFSET),
                                       images_path)
 

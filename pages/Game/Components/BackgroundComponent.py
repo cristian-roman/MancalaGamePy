@@ -27,8 +27,13 @@ class BackgroundComponent(GameComponent):
         super().__init__()
         self.window = window
 
-        self.background = pygame.image.load(os.path.join(images_path, self.BACKGROUND_FILE_NAME))
-        self.background = pygame.transform.scale(self.background, (self.window.get_width(), self.window.get_height()))
+        self.background = pygame.image.load(os.path.join
+                                            (images_path,
+                                             self.BACKGROUND_FILE_NAME))
+        self.background = (
+            pygame.transform.scale(self.background,
+                                   (self.window.get_width(),
+                                    self.window.get_height())))
 
     def _draw(self):
         """The method that draws the background."""
