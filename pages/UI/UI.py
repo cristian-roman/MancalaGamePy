@@ -65,7 +65,7 @@ class UI(ViewModel):
         self.play_pve_button._draw()
         self.quit_button._draw()
 
-    def loop(self):
+    def _loop(self):
         self._listen_for_events()
         self._load_view()
         pygame.display.update()

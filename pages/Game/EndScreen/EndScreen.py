@@ -1,8 +1,6 @@
 import os
 import sys
-
 import pygame
-
 from ViewTree import ViewTree
 from pages.UI.Components.ButtonComponent import ButtonComponent
 from pages.ViewModel import ViewModel

@@ -5,7 +5,7 @@ import pygame
 
 class ViewModel:
 
-    def loop(self):
+    def _loop(self):
         raise NotImplementedError
 
     def _load_view(self):

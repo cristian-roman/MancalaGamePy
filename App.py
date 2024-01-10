@@ -24,5 +24,5 @@ class App:
     @staticmethod
     def __main_loop():
         while True:
-            ViewTree.get_current_view().loop()
+            ViewTree.get_current_view()._loop()
 
