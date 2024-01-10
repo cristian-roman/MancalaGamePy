@@ -1,14 +1,26 @@
 import os
 import random
-
 import pygame
-
 import ViewTree
-from AppSettings import AppSettings
 from pages.Game.Components.GameComponent import GameComponent
 
 
 class StoneComponent(GameComponent):
+    """
+    A class that represents a stone.
+
+    Class-level attributes:
+        stone_images_path (str): The path of the images of the stones.
+        offsets (dict): The offsets of the stones.
+        sizes (dict): The sizes of the stones.
+
+    Attributes:
+        stone_index (int):  The index of the stone
+                            from stones in image path.
+        window (pygame.Surface): The pygame window.
+        stone (pygame.Surface): The image of the stone.
+        stone_coordinates (tuple): The coordinates of the stone.
+    """
     stone_images_path = os.path.join('images', 'Game', 'Stones')
 
     offsets = {
@@ -28,6 +40,14 @@ class StoneComponent(GameComponent):
     }
 
     def __init__(self, window, pit_coordinates, stone_index):
+        """
+        The constructor initializing the attributes of the class.
+        :param window: the pygame window
+        :param pit_coordinates:     the coordinates of the pit
+                                    that contains the stone
+        :param stone_index:     the index of the stone
+                                in the stones list from images
+        """
         super().__init__()
         self.stone_index = stone_index
         self.window = window
@@ -38,9 +58,14 @@ class StoneComponent(GameComponent):
 
         self.stone_coordinates = (pit_coordinates[0] + self.offsets[stone_index][0] + random.randint(-1, 1),
                                   pit_coordinates[1] + self.offsets[stone_index][1] + random.randint(-1, 1))
-        self.round = 0
 
     def move_animate(self, new_coordinates, is_in_pot=False):
+        """
+        Moves the stone to the new coordinates. It animates the movement.
+        :param new_coordinates: new pit coordinates
+        :param is_in_pot: False default, True if the new coordinates point to a pot
+        :return: None
+        """
         if is_in_pot:
             a = -5
             b = 5
@@ -48,7 +73,6 @@ class StoneComponent(GameComponent):
             a = -1
             b = 1
 
-        self.round += 1
         new_stone_coordinates = (new_coordinates[0] + self.offsets[self.stone_index][0] + random.randint(a, b),
                                  new_coordinates[1] + self.offsets[self.stone_index][1] + random.randint(a, b))
         speed = 10
@@ -77,4 +101,5 @@ class StoneComponent(GameComponent):
         self.stone_coordinates = new_stone_coordinates
 
     def _draw(self):
+        """Draw the stone on the window"""
         self.window.blit(self.stone, self.stone_coordinates)

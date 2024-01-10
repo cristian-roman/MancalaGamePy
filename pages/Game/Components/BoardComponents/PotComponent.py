@@ -1,7 +1,5 @@
 import os
-
 import pygame
-
 from pages.Game.Components.GameComponent import GameComponent
 from AppSettings import AppSettings
 import pages.Game.Components.LabelComponent as Label
@@ -13,6 +11,7 @@ class PotComponent(GameComponent):
     pot_file_name = 'player_pot.png'
 
     def __init__(self, window, pot_coordinates, images_path):
+        super().__init__()
         self.window = window
         self.pot_coordinates = pot_coordinates
         self.stones = list()

@@ -25,6 +25,12 @@ class PitComponent(GameComponent):
         window (pygame.Surface): The window where the pit is drawn.
         pit_coordinates (tuple): The coordinates of the pit.
         pit_index (int): The index of the pit on the table.
+        is_highlighted (bool): True if the pit is highlighted, False otherwise.
+        highlight_width (int): The width of the ellipse that highlights the pit.
+        generator_number (int): The number used to generate the stones.
+        stones (list): The list of stones contained in the pit.
+        label (LabelComponent): The label that shows the number of stones
+            contained in the pit.
     """
     PIT_WIDTH = 102
     PIT_HEIGHT = 155
@@ -41,11 +47,11 @@ class PitComponent(GameComponent):
         It also initializes the label
         that shows the number of stones contained in the pit.
 
-        Args:
-            window (pygame.Surface): The window where the pit is drawn.
-            pit_coordinates (tuple): The coordinates of the pit.
-            pit_index (int): The index of the pit.
+        :param:window (pygame.Surface): The window where the pit is drawn.
+        :param:pit_coordinates (tuple): The coordinates of the pit.
+        :param:pit_index (int): The index of the pit.
         """
+        super().__init__()
         self.window = window
         self.pit_coordinates = pit_coordinates
         self.pit_index = pit_index
