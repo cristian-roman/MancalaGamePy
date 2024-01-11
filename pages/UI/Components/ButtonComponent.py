@@ -1,6 +1,6 @@
 import pygame
 from AppSettings import AppSettings
-from pages.Game.Components import GameComponent
+from pages.Game.Components.GameComponent import GameComponent
 
 
 class ButtonComponent(GameComponent):
