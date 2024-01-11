@@ -180,7 +180,8 @@ class Game(ViewModel):
                      .move_all_to_player_pot(last_destination,
                                              self.player_turn))
                     opposite_pit_index = 14 - last_destination
-                    self.pits_system.move_all_to_player_pot(opposite_pit_index, self.player_turn)
+                    (self.pits_system
+                     .move_all_to_player_pot(opposite_pit_index, self.player_turn))
 
                 self.player_turn = 1 if self.player_turn == 2 else 2
 

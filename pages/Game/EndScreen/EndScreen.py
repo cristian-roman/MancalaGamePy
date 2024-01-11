@@ -22,6 +22,7 @@ class EndScreen(ViewModel):
     Class-level attributes:
         BUTTON_DEFAULT_WIDTH (int): The default width of the buttons.
         BUTTON_DEFAULT_HEIGHT (int): The default height of the buttons.
+        BUTTON_BG_PATH (str): The path of the background of the buttons.
 
     Attributes:
         window (pygame.Surface): The window where the end screen is drawn.
@@ -32,10 +33,10 @@ class EndScreen(ViewModel):
     BUTTON_DEFAULT_WIDTH = 125
     BUTTON_DEFAULT_HEIGHT = 62
 
-    button_bg_image_path = os.path.join('images',
-                                        'Game',
-                                        'EndScreen',
-                                        'bg_button.png')
+    BUTTON_BG_PATH = os.path.join('images',
+                                  'Game',
+                                  'EndScreen',
+                                  'bg_button.png')
 
     def __init__(self, window):
         """
@@ -53,7 +54,7 @@ class EndScreen(ViewModel):
                                self.window.get_height() // 3 * 2),
                               (self.BUTTON_DEFAULT_WIDTH,
                                self.BUTTON_DEFAULT_HEIGHT),
-                              self.button_bg_image_path,
+                              self.BUTTON_BG_PATH,
                               AppSettings.colors['white'],
                               AppSettings.colors['light_gray'])
         self.quit_button \
@@ -63,7 +64,7 @@ class EndScreen(ViewModel):
                                self.window.get_height() // 3 * 2),
                               (self.BUTTON_DEFAULT_WIDTH,
                                self.BUTTON_DEFAULT_HEIGHT),
-                              self.button_bg_image_path,
+                              self.BUTTON_BG_PATH,
                               AppSettings.colors['white'],
                               AppSettings.colors['light_gray'])
 
@@ -77,6 +78,11 @@ class EndScreen(ViewModel):
         pygame.display.update()
 
     def _listen_for_events(self):
+        """
+        The event listener of the end screen.
+        It listens for the click on the buttons.
+        :return: None
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -92,5 +98,11 @@ class EndScreen(ViewModel):
                     sys.exit()
 
     def _loop(self):
+        """
+        The loop of the end screen.
+
+        It calls the _load_view() and _listen_for_events() methods.
+        :return: None
+        """
         self._load_view()
         self._listen_for_events()
