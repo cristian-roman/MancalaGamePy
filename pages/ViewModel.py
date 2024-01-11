@@ -1,7 +1,3 @@
-import sys
-import pygame
-
-
 class ViewModel:
     """
     This class is the parent class of all the pages of the game.
