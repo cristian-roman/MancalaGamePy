@@ -1,4 +1,10 @@
 class AppSettings:
+    """
+    This class serves as a common place for all the settings of the game.
+    Any class can access the settings of the game by importing this class
+
+    It has an init method that initialize the font for the game
+    """
     name = "Mancala Game"
     width = 1280
     height = 720
@@ -19,4 +25,8 @@ class AppSettings:
 
     @staticmethod
     def init(font):
+        """
+        This method initializes the font of the game.
+        It is called only once by the App.init() method.
+        """
         AppSettings.font = font
