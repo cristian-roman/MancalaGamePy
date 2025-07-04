@@ -47,14 +47,3 @@ MancalaGamePy-main/
    ```bash
    python main.py
    ```
-
-## 👀 Screenshots
-
-> You can add screenshots of gameplay here by inserting image links:
->
-> `![Mancala Board](images/Game/board.png)`
-
-
----
-
-🎯 *Enjoy playing Mancala while learning Python GUI programming!*
