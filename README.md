@@ -54,9 +54,6 @@ MancalaGamePy-main/
 >
 > `![Mancala Board](images/Game/board.png)`
 
-## 📜 License
-
-This project is provided for educational and personal use. Contact the author for commercial or redistribution rights.
 
 ---
 
